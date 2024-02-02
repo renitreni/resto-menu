@@ -51,13 +51,15 @@ class CategoryService
      */
     public function getSubCategory($subCategories)
     {
-        $tree = [];
-        foreach ($subCategories as $subcategory) {
-            $tree[] = $subcategory->subCategories;
-            $subcategory ? $this->getSubCategory($subcategory->subCategories) : null;
+        if ($subCategories) {
+            foreach ($subCategories as $subcategory) {
+                $this->getSubCategory(
+                    $subcategory->subCategories && $subcategory->subCategories->count()
+                    ? $subcategory->subCategories
+                    : $subcategory->items
+                );
+            }
         }
-
-        return $tree;
     }
 
     /**
