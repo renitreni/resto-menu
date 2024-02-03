@@ -9,11 +9,11 @@ defineProps({
 
 var holdId = ref(null);
 
-function toggle(id) {
-    if (holdId != id || !holdId) {
-        holdId = id;
+function toggling(id) {
+    if (holdId.value != id || !holdId.value) {
+        holdId.value = id;
     } else {
-        holdId = null;
+        holdId.value = null;
     }
 }
 
@@ -42,8 +42,8 @@ const callShowForm = (action = null, id = null, parentid = null) => {
                         </div>
                         <strong class="pl-2">{{ category.name }}</strong>
                     </div>
-                    <span class="down-Arrow" v-show="category.id == holdId" @click="toggle(category.id)">&#9660;</span>
-                    <span class="up-Arrow" v-show="category.id != holdId" @click="toggle(category.id)">&#9650;</span>
+                    <span class="down-Arrow" v-show="category.id == holdId" @click="toggling(category.id)">&#9660;</span>
+                    <span class="up-Arrow" v-show="category.id != holdId" @click="toggling(category.id)">&#9650;</span>
                 </a>
             </div>
             <div class="pt-2 pl-4 tab__content" v-show="category.id == holdId">
