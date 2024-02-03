@@ -37,7 +37,11 @@ function submit() {
         router.visit('/dashboard', {
             only: ['categoryTree'],
         })
-    }).then(() => { getItem() });
+    }).catch((value) => {
+        if (value.response.status == 500) {
+            alert(value.response.data.message);
+        }
+    });
 }
 // single ref
 onMounted(() => {

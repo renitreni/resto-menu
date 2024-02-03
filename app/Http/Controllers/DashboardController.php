@@ -8,6 +8,8 @@ use App\Http\Requests\AddCategoryRequest;
 use App\Http\Requests\AddItemRequest;
 use App\Models\Category;
 use App\Models\Item;
+use App\Services\CategoryService;
+use Exception;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -36,18 +38,29 @@ class DashboardController extends Controller
         return response()->json($item);
     }
 
-    public function addCategory(AddCategoryRequest $request)
+    public function addCategory(AddCategoryRequest $request, CategoryService $categoryService)
     {
         $attributes = $request->validated();
-        $category = Category::updateOrCreate(
-            ['id' => $attributes['categoryId']],
-            [
-                'name' => $attributes['name'],
-                'discount' => $attributes['discount'],
-                'parent_category_id' => $attributes['parentId'] == 'null' ? null : $attributes['parentId'],
-                'user_id' => auth()->id(),
-            ]
-        );
+        try {
+
+            if ($attributes['parentId'] != null && $attributes['categoryId'] == 'null') {
+                $attributes['user_id'] = auth()->id();
+                $parentCategory = Category::find($attributes['parentId']);
+                $category = $categoryService->addSubCategory($parentCategory, $attributes);
+            } else {
+                $category = Category::updateOrCreate(
+                    ['id' => $attributes['categoryId']],
+                    [
+                        'name' => $attributes['name'],
+                        'discount' => $attributes['discount'],
+                        'parent_category_id' => $attributes['parentId'] == 'null' ? null : $attributes['parentId'],
+                        'user_id' => auth()->id(),
+                    ]
+                );
+            }
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         return response()->json($category);
     }

@@ -15,8 +15,7 @@ class CategoryService
     public function addSubCategory(Category $category, array $attributes)
     {
         $this->countCategoryDescendants($category, $countDescendants);
-
-        if ($countDescendants > 3) {
+        if ($countDescendants + 1 > 3) {
             throw new Exception('Sorry, you cannot add more sub-category.');
         }
 
