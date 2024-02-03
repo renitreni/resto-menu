@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('verified')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard/item/{item}/category/{category}', [DashboardController::class, 'getItem'])->name('dashboard.item.get');
-        Route::get('/dashboard/category/{category}/item/{item}', [DashboardController::class, 'getCategory'])->name('dashboard.category.get');
+        Route::get('/dashboard/category/{category}/parent/{parent}', [DashboardController::class, 'getCategory'])->name('dashboard.category.get');
         Route::post('/dashboard/item', [DashboardController::class, 'addItem'])->name('dashboard.add.item');
         Route::post('/dashboard/category', [DashboardController::class, 'addCategory'])->name('dashboard.add.category');
     });

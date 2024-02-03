@@ -38,7 +38,18 @@ class DashboardController extends Controller
 
     public function addCategory(AddCategoryRequest $request)
     {
-        dd($request->validated());
+        $attributes = $request->validated();
+        $category = Category::updateOrCreate(
+            ['id' => $attributes['categoryId']],
+            [
+                'name' => $attributes['name'],
+                'discount' => $attributes['discount'],
+                'parent_category_id' => $attributes['parentId'] == 'null' ? null : $attributes['parentId'],
+                'user_id' => auth()->id(),
+            ]
+        );
+
+        return response()->json($category);
     }
 
     public function getItem($item)
@@ -55,7 +66,7 @@ class DashboardController extends Controller
     public function getCategory($category)
     {
         if ($category) {
-            Category::find($category);
+            $category = Category::find($category);
         }
 
         return response()->json($category);

@@ -22,8 +22,10 @@ class AddCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action' => 'required',
-            'id' => 'nullable'
+            'categoryId' => 'nullable',
+            'name' => 'required',
+            'discount' => 'required',
+            'parentId' =>'nullable'
         ];
     }
 }

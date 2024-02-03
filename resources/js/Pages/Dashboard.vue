@@ -12,6 +12,7 @@ var categoryFormShow = ref(0);
 var itemFormShow = ref(0);
 var itemId = ref(null);
 var categoryId = ref(null);
+var parentId = ref(null);
 
 function addItem(obj) {
     categoryFormShow.value = 0;
@@ -31,6 +32,7 @@ function addCategory(obj) {
     itemFormShow.value = 0;
     itemId.value = obj.itemId;
     categoryId.value = obj.categoryId;
+    parentId.value = obj.parentId;
 }
 
 function editCategory(obj) {
@@ -38,12 +40,15 @@ function editCategory(obj) {
     itemFormShow.value = 0;
     itemId.value = obj.itemId;
     categoryId.value = obj.categoryId;
+    parentId.value = obj.parentId;
 }
+
 function showForm() {
     var action = window.localStorage.getItem("action");
     var itemId = window.localStorage.getItem("itemId");
     var categoryId = window.localStorage.getItem("categoryId");
-    var obj = { action: action, itemId: itemId, categoryId: categoryId};
+    var parentId = window.localStorage.getItem("parentId");
+    var obj = { action: action, itemId: itemId, categoryId: categoryId, parentId: parentId };
 
     switch (action) {
         case 'add category':
@@ -78,10 +83,10 @@ function showForm() {
                     </div>
                     <div class="p-6 text-gray-900">
                         <div v-if="itemFormShow == 1">
-                            <ItemFrom :item-id="itemId" :category-id="categoryId"/>
+                            <ItemFrom :item-id="itemId" :category-id="categoryId" />
                         </div>
                         <div v-if="categoryFormShow == 1">
-                            <CategoryForm :item-id="itemId" :category-id="categoryId"/>
+                            <CategoryForm :item-id="itemId" :category-id="categoryId" :parent-id="parentId" />
                         </div>
                     </div>
                 </div>

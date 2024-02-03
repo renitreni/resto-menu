@@ -36,15 +36,9 @@ function submit() {
             dicount: dicount.value
         }
     ).then((value) => {
-        itemIdHold.value = value.data.id;
-        name.value = value.data.name;
-        price.value = value.data.price;
-        dicount.value = value.data.dicount;
-        applyDiscount.value = value.data.apply_discount;
         router.visit('/dashboard', {
             only: ['categoryTree'],
         })
-        getItem();
     }).then(() => { getItem() });
 }
 // single ref

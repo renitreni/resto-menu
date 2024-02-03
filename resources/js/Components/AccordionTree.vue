@@ -19,11 +19,13 @@ function toggle(id) {
 
 const emit = defineEmits(['showForm'])
 
-const callShowForm = (action = null, id = null) => {
+const callShowForm = (action = null, id = null, parentid = null) => {
+
     if (action) {
         window.localStorage.clear();
         window.localStorage.setItem("action", action);
         window.localStorage.setItem("categoryId", id);
+        window.localStorage.setItem("parentId", parentid);
     }
     emit('showForm');
 }
@@ -34,7 +36,7 @@ const callShowForm = (action = null, id = null) => {
         <div>
             <div class="tab__header">
                 <a href="#" class="flex justify-between border-b-2 border-indigo-300 break-keep">
-                    <div class="flex" @click="callShowForm('edit category', category.id)">
+                    <div class="flex" @click="callShowForm('edit category', category.id, category.parent_category_id)">
                         <div>
                             {{ category.discount }}%
                         </div>
@@ -48,7 +50,7 @@ const callShowForm = (action = null, id = null) => {
 
                 <div class="flex">
                     <div class="pr-1">
-                        <PrimaryButton v-if="category.items != []" @click="callShowForm('add category', category.id)">
+                        <PrimaryButton v-if="category.items != []" @click="callShowForm('add category', null, category.id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-plus" viewBox="0 0 16 16">
                                 <path
@@ -69,7 +71,7 @@ const callShowForm = (action = null, id = null) => {
                 </div>
                 <AccordionTree v-if="category.sub_categories.length" :categories="category.sub_categories"
                     @show-form="callShowForm" />
-                <Card :menu="category.items" @show-form="callShowForm" v-else :category-id="category.id"/>
+                <Card :menu="category.items" @show-form="callShowForm" v-else :category-id="category.id" />
             </div>
         </div>
     </div>
