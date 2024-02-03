@@ -10,10 +10,10 @@ defineProps({
 var holdId = ref(null);
 
 function toggle(id) {
-    if (this.holdId != id || !this.holdId) {
-        this.holdId = id;
+    if (holdId != id || !holdId) {
+        holdId = id;
     } else {
-        this.holdId = null;
+        holdId = null;
     }
 }
 
